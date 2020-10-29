@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
-from db import db
 
 from security import authenticate, identity
 from Resources.user import UserRegister
@@ -17,11 +16,6 @@ app.secret_key = 'jose'
 
 api = Api(app)
 
-# Criação de tabelas no DB antes de qualquer request
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 jwt = JWT(app, authenticate, identity)
 
 # Rotas de acesso da API
@@ -33,5 +27,6 @@ api.add_resource(UserRegister, '/register')
 
 # Inicialização do APP
 if __name__ == '__main__':
+    from db import db
     db.init_app(app)
     app.run(port=5000, debug=True)
