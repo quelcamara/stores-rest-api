@@ -1,0 +1,5 @@
+# O conteúdo deste arquivo será padrões que 
+# Serão ignorados quando adicionarmos arquivos ao Git
+
+__pycache__/
+*.pyc
