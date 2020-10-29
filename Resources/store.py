@@ -1,7 +1,12 @@
 from flask_restful import Resource
 from Models.store import StoreModel
 
+
+# Resource dos objetos Store
 class Store(Resource):
+
+    # Retorna uma loja buscando por <name>
+    # E retorna os itens pertencentes àquela loja
     def get(self, name):
         store = StoreModel.find_by_name(name)
         if store:
@@ -9,6 +14,7 @@ class Store(Resource):
         else:
             return {'Message': 'Store not found.'}, 404
 
+    # Adiciona um loja ao DB
     def post(self, name):
         if StoreModel.find_by_name(name):
             return {'Message': "A store with name '{}' already exists.".format(name)}, 400
@@ -21,6 +27,7 @@ class Store(Resource):
 
         return store.json(), 201
 
+    # Deleta uma loja do DB
     def delete(self, name):
         store = StoreModel.find_by_name(name)
         if store:
@@ -29,6 +36,7 @@ class Store(Resource):
         return {'Message': 'Store deleted.'}
 
 
+# Retorna uma lista com todas as lojas cadastradas no DB
 class StoreList(Resource):
     def get(self):
         return {'stores': [store.json() for store in StoreModel.query.all()]}
